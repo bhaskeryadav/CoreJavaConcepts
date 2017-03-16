@@ -1,5 +1,6 @@
 package learn.singleton;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -24,17 +25,24 @@ public class BreakSingleton {
 }
 
 
-class TestClass{
+class TestClass implements Serializable{
 	public String val="default";
 	
-	private static TestClass tc;
+	private static TestClass tc=new TestClass();
 	
 	private TestClass() {
-
+		//To prevent using reflection
+		if(tc==null){
+			throw new IllegalStateException("Singleton only");
+		}
 	}
 	
 	private TestClass(String v){
-		val=v;
+		//To prevent using reflection
+		if(tc==null){
+			throw new IllegalStateException("Singleton only");
+		}
+		//val=v;
 	}
 	
 	public static TestClass getInstance(){
